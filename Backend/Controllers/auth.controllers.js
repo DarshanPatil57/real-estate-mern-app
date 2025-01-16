@@ -52,14 +52,15 @@ const login = async (req,res)=>{
 
         //generate token and send to user 
         const token = jwt.sign({
-            id:user.id
+            id:user.id,
+            isAdmin:true
         },process.env.JWT_SECRET_KEY)
+
+        const {password:userPassword, ...userInfo} = user
         res.cookie("token", token,{
             httpOnly:true,
             // secure:true
-        }).status(200).json({
-            message:"Login successfully"
-        })
+        }).status(200).json(userInfo)
     } catch (error) {
         res.status(500).json({
             message: "Failed to login.",
