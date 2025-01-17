@@ -1,22 +1,12 @@
-import jwt from 'jsonwebtoken'
+const jwt = require('jsonwebtoken')
 
 const user = async(req,res)=>{
-
-    const token = req.cookies.token
-
-    if(!token) return res.status(401).json({
-        message:"Not authenticated"
-    })
-
-    jwt.verify(token,process.env.JWT_SECRET_KEY, async (error,payload) =>{
-        if(error) return res.status(403).json({
-            message:"Token is not valid "
-        })
-
+    console.log(req.userId);
+    
         res.status(200).json({
             message:"You are authenticated"
         })
-    })
+    
     
 }
 
