@@ -9,13 +9,12 @@ function ProfileUpdatePage() {
 
   const {currentUser,updateUser} = useContext(AuthContext)
   const [error,setError] = useState("")
-  const [avatar,setAvatar]  = useState(currentUser.avatar)
+  const [avatar,setAvatar]  = useState([])
 
 const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-console.log('Cloudinary Cloud Name:', cloudName);
-console.log('Upload Preset:', uploadPreset);
+
 
 
   const navigate = useNavigate()
@@ -29,7 +28,7 @@ console.log('Upload Preset:', uploadPreset);
     const {username,email,password} = Object.fromEntries(formData)
 
     try {
-      const response = await apiRequest.put(`/user/${currentUser.id}`,{username,email,password,avatar})
+      const response = await apiRequest.put(`/user/${currentUser.id}`,{username,email,password,avatar:[0]})
       updateUser(response.data)
       navigate("/profile  ")
       // console.log(response.data);
@@ -70,7 +69,7 @@ console.log('Upload Preset:', uploadPreset);
         </form>
       </div>
       <div className="sideContainer">
-        <img src={ avatar || "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="" className="avatar" />
+        <img src={ avatar[0] ||  currentUser.avatar  || "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"} alt="" className="avatar" />
         <UploadWidget  uwConfig={{
           // cloudName:"",
           cloudName:cloudName,
@@ -80,7 +79,7 @@ console.log('Upload Preset:', uploadPreset);
           maxImageFileASize:2000000,
           folder:"avatars"
         }}
-        setAvatar={setAvatar}
+        setState={setAvatar}
         />
       </div>
     </div>

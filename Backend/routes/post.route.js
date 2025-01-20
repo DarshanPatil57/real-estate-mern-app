@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const {verifyToken} = require('../middleware/verifyToken')
+const { getPosts, getPost, addPosts, updatePosts, deletePosts } = require('../Controllers/post.controllers')
 
 router.get("/" ,getPosts)
 router.get("/:id" ,getPost)
